@@ -1,13 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -51,7 +45,6 @@ export function LuxSelect({
   const selected = opts.find((o) => o.value === value) ?? opts[0];
 
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [coords, setCoords] = useState<{
     left: number;
     top: number;
@@ -63,30 +56,6 @@ export function LuxSelect({
   const [activeIdx, setActiveIdx] = useState(() =>
     Math.max(0, opts.findIndex((o) => o.value === value))
   );
-
-  useEffect(() => setMounted(true), []);
-
-  const place = useCallback(() => {
-    const el = triggerRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const estHeight = Math.min(opts.length * 44 + 12, 300);
-    const spaceBelow = window.innerHeight - r.bottom;
-    const dropUp = spaceBelow < estHeight + 16 && r.top > spaceBelow;
-    const width = Math.max(r.width, 190);
-    let left = align === "right" ? r.right - width : r.left;
-    left = Math.max(8, Math.min(left, window.innerWidth - width - 8));
-    setCoords({
-      left,
-      top: dropUp ? r.top : r.bottom,
-      width,
-      dropUp,
-    });
-  }, [align, opts.length]);
-
-  useLayoutEffect(() => {
-    if (open) place();
-  }, [open, place]);
 
   useEffect(() => {
     if (!open) return;
@@ -120,9 +89,26 @@ export function LuxSelect({
     };
   }, [open, opts, activeIdx, onChange]);
 
+  // Measure the trigger and position the menu at open time (no layout effect
+  // needed — we close on scroll/resize, so a single measurement is enough).
   const toggle = () => {
+    if (open) {
+      setOpen(false);
+      return;
+    }
+    const el = triggerRef.current;
+    if (el) {
+      const r = el.getBoundingClientRect();
+      const estHeight = Math.min(opts.length * 44 + 12, 300);
+      const spaceBelow = window.innerHeight - r.bottom;
+      const dropUp = spaceBelow < estHeight + 16 && r.top > spaceBelow;
+      const width = Math.max(r.width, 190);
+      let left = align === "right" ? r.right - width : r.left;
+      left = Math.max(8, Math.min(left, window.innerWidth - width - 8));
+      setCoords({ left, top: dropUp ? r.top : r.bottom, width, dropUp });
+    }
     setActiveIdx(Math.max(0, opts.findIndex((o) => o.value === value)));
-    setOpen((o) => !o);
+    setOpen(true);
   };
 
   return (
@@ -182,7 +168,7 @@ export function LuxSelect({
         </button>
       )}
 
-      {mounted &&
+      {typeof document !== "undefined" &&
         createPortal(
           <AnimatePresence>
             {open && coords && (
@@ -209,7 +195,7 @@ export function LuxSelect({
                     maxHeight: 300,
                   }}
                   className={cn(
-                    "z-[120] overflow-auto rounded-2xl glass-strong p-1.5 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.7)]",
+                    "z-[120] overflow-auto rounded-2xl border border-champagne/20 bg-graphite p-1.5 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.75)] backdrop-blur-2xl",
                     menuClassName
                   )}
                 >

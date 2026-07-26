@@ -394,6 +394,36 @@ body {
     inset 0 -1px 0 rgba(74, 55, 22, 0.05);
 }
 
+/* ============================================================
+   Force-dark scope
+   Re-declares the role tokens to their obsidian (dark) values for a
+   subtree, so a section stays cinematic even under the light theme.
+   Used by the hero — its media overlay and text must stay dark, no
+   matter the site theme.
+   ============================================================ */
+.force-dark {
+  color-scheme: dark;
+  --color-obsidian: #08080a;
+  --color-onyx: #0d0d10;
+  --color-graphite: #16161b;
+  --color-slate-veil: #1e1e24;
+  --color-ash: #2a2a31;
+  --color-pearl: #f6f2ea;
+  --color-ivory: #ece7dc;
+  --color-mist: #a7a29a;
+  --color-fog: #6f6a63;
+  --color-champagne: #c9a96a;
+  --grad-a: #d4b675;
+  --grad-b: #e6cf9a;
+  --grad-c: #c9a96a;
+}
+/* Suppress the daylight elevation shadows inside a force-dark subtree
+   so glass panels match the dark theme exactly. */
+:root[data-theme="light"] .force-dark .glass,
+:root[data-theme="light"] .force-dark .glass-strong {
+  box-shadow: none;
+}
+
 /* Balanced headings */
 h1, h2, h3 {
   text-wrap: balance;

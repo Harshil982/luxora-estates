@@ -49,7 +49,7 @@ export function AiMatchTeaser() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden bg-gradient-to-b from-obsidian via-graphite/40 to-obsidian py-24 md:py-32"
+      className="relative overflow-hidden bg-gradient-to-b from-obsidian via-graphite/40 to-obsidian py-20 md:py-32"
     >
       {/* Ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-champagne/[0.06] blur-[120px]" />

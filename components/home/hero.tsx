@@ -52,7 +52,7 @@ export function Hero() {
         mx.set(e.clientX / innerWidth - 0.5);
         my.set(e.clientY / innerHeight - 0.5);
       }}
-      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden"
+      className="force-dark relative flex min-h-[100svh] flex-col justify-end overflow-hidden"
     >
       {/* Cinematic background crossfade */}
       <motion.div style={{ x: bgX, y: bgY }} className="absolute inset-[-3%]">
@@ -86,8 +86,8 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-obsidian/60" />
       <div className="absolute inset-0 bg-gradient-to-r from-obsidian/70 via-transparent to-transparent" />
 
-      {/* Location tag (top-left, under nav) */}
-      <div className="absolute left-5 top-28 z-10 md:left-8">
+      {/* Location tag (top-left, under nav) — hidden on small screens to avoid the title */}
+      <div className="absolute left-5 top-24 z-10 hidden sm:block md:left-8 md:top-28">
         <AnimatePresence mode="wait">
           <motion.p
             key={active}
@@ -109,23 +109,23 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 pb-14 md:px-8 md:pb-20">
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 pb-10 md:px-8 md:pb-20">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
           className="flex items-center gap-3"
         >
-          <span className="h-px w-10 bg-champagne/50" />
+          <span className="h-px w-8 bg-champagne/50 md:w-10" />
           <span className="eyebrow">Luxora Estates</span>
         </motion.div>
 
-        <h1 className="mt-6 max-w-4xl font-display text-[3.2rem] font-light leading-[0.95] tracking-tight text-pearl sm:text-7xl md:text-8xl">
+        <h1 className="mt-4 max-w-4xl font-display text-[2.35rem] font-light leading-[1] tracking-tight text-pearl sm:text-6xl sm:leading-[0.95] md:mt-6 md:text-7xl lg:text-8xl">
           <RiseLine text="Where Extraordinary" delay={0.4} />
           <RiseLine text="Living Begins." delay={0.55} accent />
         </h1>
 
-        <div className="mt-6 h-8 overflow-hidden">
+        <div className="mt-5 h-7 overflow-hidden md:mt-6 md:h-8">
           <AnimatePresence mode="wait">
             <motion.p
               key={tag}
@@ -133,7 +133,7 @@ export function Hero() {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -30, opacity: 0 }}
               transition={{ duration: 0.6, ease: luxeEase }}
-              className="text-lg text-mist md:text-xl"
+              className="text-base text-mist md:text-xl"
             >
               {TAGLINES[tag]}
             </motion.p>
@@ -145,13 +145,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.9, ease: luxeEase }}
-          className="mt-10 max-w-4xl"
+          className="mt-7 max-w-4xl md:mt-10"
         >
           <LuxurySearch />
         </motion.div>
 
         {/* Slide dots */}
-        <div className="mt-10 flex items-center gap-2.5">
+        <div className="mt-7 flex items-center gap-2.5 md:mt-10">
           {SLIDES.map((_, i) => (
             <button
               key={i}

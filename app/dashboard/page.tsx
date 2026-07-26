@@ -98,8 +98,8 @@ export default function DashboardPage() {
 
       {/* Charts */}
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <div className="rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
-          <div className="flex items-center justify-between">
+        <div className="min-w-0 rounded-3xl border border-champagne/12 bg-graphite/40 p-5 md:p-7">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <div>
               <h3 className="font-display text-2xl font-light text-pearl">Revenue</h3>
               <p className="text-sm text-mist">Commission, $M · trailing year</p>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
+        <div className="min-w-0 rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
           <h3 className="font-display text-2xl font-light text-pearl">Lead sources</h3>
           <p className="text-sm text-mist">Share of qualified pipeline</p>
           <div className="mt-8">
@@ -126,7 +126,7 @@ export default function DashboardPage() {
       {/* Leads + Portfolio */}
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         {/* Leads table */}
-        <div className="rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
+        <div className="min-w-0 rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
           <div className="flex items-center justify-between">
             <h3 className="font-display text-2xl font-light text-pearl">Pipeline</h3>
             <button className="text-sm text-mist transition-colors hover:text-pearl">
@@ -165,7 +165,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Top listings */}
-        <div className="rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
+        <div className="min-w-0 rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
           <div className="flex items-center justify-between">
             <h3 className="font-display text-2xl font-light text-pearl">Top listings</h3>
             <MoreHorizontal className="h-5 w-5 text-fog" />

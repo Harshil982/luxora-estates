@@ -14,7 +14,7 @@ export function Testimonials() {
     setI((prev) => (prev + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
 
   return (
-    <section className="border-y border-champagne/10 bg-onyx py-24 md:py-32">
+    <section className="border-y border-champagne/10 bg-onyx py-20 md:py-32">
       <div className="mx-auto max-w-4xl px-5 text-center md:px-8">
         <SectionHeading
           eyebrow="In their words"

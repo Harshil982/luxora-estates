@@ -83,15 +83,15 @@ export function InvestDashboard() {
 
       {/* Charts */}
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <div className="rounded-3xl border border-champagne/12 bg-graphite/40 p-7">
-          <div className="flex items-center justify-between">
+        <div className="rounded-3xl border border-champagne/12 bg-graphite/40 p-5 md:p-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h3 className="font-display text-2xl font-light text-pearl">
                 Luxury Market Index
               </h3>
               <p className="text-sm text-mist">Global prime residential · base 100</p>
             </div>
-            <div className="flex gap-1 rounded-full border border-champagne/15 p-1">
+            <div className="flex w-fit gap-1 rounded-full border border-champagne/15 p-1">
               {(Object.keys(INDEX_SERIES) as (keyof typeof INDEX_SERIES)[]).map((p) => (
                 <button
                   key={p}

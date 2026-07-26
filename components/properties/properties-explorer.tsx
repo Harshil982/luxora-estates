@@ -84,45 +84,47 @@ export function PropertiesExplorer({
     <div className="mx-auto max-w-[1400px] px-5 pb-28 md:px-8">
       {/* Controls */}
       <div className="sticky top-20 z-40 -mx-5 mb-10 border-y border-champagne/10 bg-obsidian/80 px-5 py-4 backdrop-blur-xl md:mx-0 md:rounded-2xl md:border md:px-6">
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           {/* Search */}
-          <div className="flex flex-1 items-center gap-2 rounded-full border border-champagne/15 bg-graphite/40 px-4 py-2.5">
-            <Search className="h-4 w-4 text-fog" />
+          <div className="flex w-full min-w-0 items-center gap-2 rounded-full border border-champagne/15 bg-graphite/40 px-4 py-2.5 sm:w-auto sm:flex-1">
+            <Search className="h-4 w-4 shrink-0 text-fog" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, city or neighborhood…"
-              className="w-full bg-transparent text-sm text-pearl placeholder:text-fog focus:outline-none"
+              className="w-full min-w-0 bg-transparent text-sm text-pearl placeholder:text-fog focus:outline-none"
             />
           </div>
 
-          {/* Sort */}
-          <LuxSelect
-            variant="pill"
-            align="right"
-            value={sort}
-            onChange={(v) => setSort(v as typeof sort)}
-            options={SORTS.map((s) => ({ label: s.label, value: s.id }))}
-            icon={<ArrowUpDown className="h-4 w-4" />}
-          />
+          <div className="flex items-center gap-3">
+            {/* Sort */}
+            <LuxSelect
+              variant="pill"
+              align="right"
+              value={sort}
+              onChange={(v) => setSort(v as typeof sort)}
+              options={SORTS.map((s) => ({ label: s.label, value: s.id }))}
+              icon={<ArrowUpDown className="h-4 w-4" />}
+            />
 
-          <button
-            onClick={() => setShowFilters((s) => !s)}
-            className={cn(
-              "flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm transition-colors",
-              showFilters || active
-                ? "border-champagne/50 bg-champagne/10 text-pearl"
-                : "border-champagne/15 bg-graphite/40 text-mist"
-            )}
-          >
-            <SlidersHorizontal className="h-4 w-4" />
-            Filters
-            {active > 0 && (
-              <span className="grid h-5 w-5 place-items-center rounded-full bg-gold text-[0.7rem] font-semibold text-ink">
-                {active}
-              </span>
-            )}
-          </button>
+            <button
+              onClick={() => setShowFilters((s) => !s)}
+              className={cn(
+                "flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-sm transition-colors",
+                showFilters || active
+                  ? "border-champagne/50 bg-champagne/10 text-pearl"
+                  : "border-champagne/15 bg-graphite/40 text-mist"
+              )}
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              Filters
+              {active > 0 && (
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-gold text-[0.7rem] font-semibold text-ink">
+                  {active}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>

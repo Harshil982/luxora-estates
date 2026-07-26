@@ -8,7 +8,7 @@ import { Reveal } from "@/components/ui/reveal";
 
 export function NeighborhoodsPreview() {
   return (
-    <section className="border-y border-champagne/10 bg-onyx py-24 md:py-32">
+    <section className="border-y border-champagne/10 bg-onyx py-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-5 md:px-8">
         <SectionHeading
           eyebrow="Neighborhood Intelligence"
