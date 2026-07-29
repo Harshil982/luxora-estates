@@ -74,12 +74,14 @@ export function Navbar() {
 
           <div className="flex items-center gap-3">
             <ThemeToggle />
+            {/* Sign in — hidden until real authentication is wired up.
             <Link
               href="/dashboard"
               className="hidden text-sm text-mist transition-colors hover:text-pearl md:block"
             >
               Sign in
             </Link>
+            */}
             <Magnetic strength={0.3}>
               <Link
                 href="/contact"

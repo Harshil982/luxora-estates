@@ -20,6 +20,42 @@ const QUICK = [
   "Where should I invest?",
 ];
 
+// Turn any Luxora path the assistant mentions into a clickable navigation link.
+const PATH_RE =
+  /(\/properties\/[a-z0-9-]+|\/(?:properties|ai-match|neighborhoods|concierge|dashboard|compare|invest|contact|about))(?![a-z0-9-])/g;
+
+function linkLabel(path: string): string {
+  if (path.startsWith("/properties/")) {
+    const slug = path.slice("/properties/".length);
+    return PROPERTIES.find((p) => p.slug === slug)?.name ?? path;
+  }
+  return path;
+}
+
+/** Render assistant text with in-line, clickable navigation links. */
+function RichText({ text, onNavigate }: { text: string; onNavigate: () => void }) {
+  const parts = text.split(PATH_RE);
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <Link
+            key={i}
+            href={part}
+            onClick={onNavigate}
+            className="mx-0.5 inline-flex items-baseline gap-0.5 font-medium text-gold underline decoration-champagne/40 underline-offset-2 transition-colors hover:decoration-champagne"
+          >
+            {linkLabel(part)}
+            <ArrowUpRight className="h-3 w-3 shrink-0 translate-y-px text-champagne" />
+          </Link>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 /** Deterministic, on-device concierge — keyword-routed responses. */
 function respond(input: string): Msg {
   const q = input.toLowerCase();
@@ -106,19 +142,47 @@ export function AiAssistant() {
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Smooth-scroll to the newest message as the conversation grows.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, typing]);
 
-  const send = (text: string) => {
-    if (!text.trim()) return;
-    setMessages((m) => [...m, { role: "user", text }]);
+  // Jump straight to the latest message whenever the panel is (re)opened.
+  useEffect(() => {
+    if (!open) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [open]);
+
+  const send = async (text: string) => {
+    if (!text.trim() || typing) return;
+    const next: Msg[] = [...messages, { role: "user", text }];
+    setMessages(next);
     setInput("");
     setTyping(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: next.map((m) => ({ role: m.role, text: m.text })),
+        }),
+      });
+      if (!res.ok) throw new Error("api");
+      const data = (await res.json()) as { text?: string; cards?: Msg["cards"] };
+      if (!data.text) throw new Error("empty");
+      setMessages((m) => [...m, { role: "assistant", text: data.text!, cards: data.cards }]);
+    } catch {
+      // Gemini unavailable or not configured — fall back to on-device answers
+      // so the concierge always works.
       setMessages((m) => [...m, respond(text)]);
+    } finally {
       setTyping(false);
-    }, 700);
+    }
   };
 
   return (
@@ -176,8 +240,13 @@ export function AiAssistant() {
                 </button>
               </div>
 
-              {/* Messages */}
-              <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto p-5">
+              {/* Messages — data-lenis-prevent stops Lenis from hijacking the
+                  wheel so this list scrolls natively instead of the page. */}
+              <div
+                ref={scrollRef}
+                data-lenis-prevent
+                className="flex-1 space-y-4 overflow-y-auto overscroll-contain p-5"
+              >
                 {messages.map((m, i) => (
                   <div key={i} className={m.role === "user" ? "flex justify-end" : ""}>
                     <div
@@ -187,7 +256,11 @@ export function AiAssistant() {
                           : "border border-champagne/12 bg-obsidian/40 text-pearl"
                       }`}
                     >
-                      {m.text}
+                      {m.role === "assistant" ? (
+                        <RichText text={m.text} onNavigate={() => setOpen(false)} />
+                      ) : (
+                        m.text
+                      )}
                       {m.cards?.map((c) => (
                         <Link
                           key={c.slug}

@@ -98,7 +98,7 @@ export function AreaChart({
       {labels &&
         labels.map((l, i) => (
           <text
-            key={l}
+            key={i}
             x={points[i].x}
             y={height - 1}
             textAnchor="middle"

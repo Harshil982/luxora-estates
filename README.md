@@ -66,6 +66,31 @@ npm run lint
 
 ---
 
+## 🤖 Aria — the AI concierge (Google Gemini)
+
+Aria is a context-grounded chatbot. A server route (`app/api/chat/route.ts`)
+wraps a **knowledge base** built from the real project data ([`lib/data/knowledge.ts`](./lib/data/knowledge.ts))
+— every route, residence, feature and service — plus guardrails, into the model's
+system prompt. It answers strictly about Luxora Estates and politely declines
+off-topic questions.
+
+**Setup:**
+
+1. Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
+2. Copy the template and add your key:
+   ```bash
+   cp .env.example .env.local   # then paste your key into GEMINI_API_KEY
+   ```
+3. Restart `npm run dev`.
+
+The API key is **server-side only** — never sent to the browser. Without a key
+(or if the API errors), Aria transparently falls back to built-in rule-based
+answers, so the site always works. Override the model with `GEMINI_MODEL`.
+
+On Vercel, add `GEMINI_API_KEY` under **Project → Settings → Environment Variables**.
+
+---
+
 ## 📁 Architecture
 
 Feature-based, colocated by domain.
