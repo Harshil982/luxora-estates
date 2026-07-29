@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Speak with a Luxora private advisor. Request a consultation, a viewing, or discreet off-market access.",
+  alternates: { canonical: "/contact" },
 };
 
 const OFFICES = [

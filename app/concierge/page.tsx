@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Concierge",
   description:
     "White-glove services beyond the keys — interior design, home automation, property management, legal, relocation and VIP.",
+  alternates: { canonical: "/concierge" },
 };
 
 const ICONS: Record<string, LucideIcon> = { Sofa, Cpu, KeyRound, Scale, Plane, Sparkles };

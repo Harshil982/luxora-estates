@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Compare Residences",
   description:
     "Weigh price, ROI, scores and amenities side by side across Luxora's collection with our premium comparison tool.",
+  alternates: { canonical: "/compare" },
 };
 
 export default function ComparePage() {

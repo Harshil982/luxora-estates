@@ -3,9 +3,10 @@ import { PageHeader } from "@/components/layout/page-header";
 import { PropertiesExplorer } from "@/components/properties/properties-explorer";
 
 export const metadata: Metadata = {
-  title: "The Collection",
+  title: "Luxury Properties for Sale — The Collection",
   description:
-    "Explore Luxora Estates' privately vetted collection of penthouses, villas and mansions across the world's most coveted addresses.",
+    "Explore Luxora Estates' privately vetted collection of luxury penthouses, villas and mansions across New York, Dubai, London, Malibu, Monaco and the world's most coveted addresses.",
+  alternates: { canonical: "/properties" },
 };
 
 export default async function PropertiesPage({
@@ -24,6 +25,7 @@ export default async function PropertiesPage({
         description="A living, filterable index of extraordinary homes. Refine by city, type and intent — from trophy penthouses to income-generating waterfront estates."
       />
       <PropertiesExplorer
+        initialQuery={first(sp.q) ?? ""}
         initialListing={first(sp.listing) ?? "All"}
         initialCity={first(sp.city) ?? "All"}
         initialType={

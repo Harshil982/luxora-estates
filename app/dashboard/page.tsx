@@ -18,6 +18,8 @@ import { Reveal } from "@/components/ui/reveal";
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Agent & admin command center — pipeline, bookings and portfolio analytics.",
+  // Demo/admin surface — keep it out of search results.
+  robots: { index: false, follow: false },
 };
 
 const KPIS = [

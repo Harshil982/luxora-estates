@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Neighborhood Intelligence",
   description:
     "Live luxury index, growth, safety and connectivity data for the world's most coveted enclaves.",
+  alternates: { canonical: "/neighborhoods" },
 };
 
 const METRICS = [

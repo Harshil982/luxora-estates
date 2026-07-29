@@ -19,6 +19,9 @@ import { DetailMap } from "@/components/property/detail-map";
 import { MortgageCalculator } from "@/components/property/mortgage-calculator";
 import { BookingCard } from "@/components/property/booking-card";
 import { PropertyCard } from "@/components/property/property-card";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, propertySchema } from "@/lib/seo";
+import { formatPrice } from "@/lib/utils";
 
 export function generateStaticParams() {
   return PROPERTIES.map((p) => ({ slug: p.slug }));
@@ -30,13 +33,18 @@ export async function generateMetadata({
   const { slug } = await params;
   const p = getProperty(slug);
   if (!p) return { title: "Residence not found" };
+  const title = `${p.name} — ${p.type} in ${p.city}`;
+  const description = `${p.tagline}. ${p.beds} bed, ${p.baths} bath ${p.type.toLowerCase()} in ${p.neighborhood}, ${p.city} from ${formatPrice(p.price, p.currency)}. ${p.roi}% projected ROI.`;
   return {
-    title: p.name,
-    description: p.tagline,
+    title,
+    description,
+    alternates: { canonical: `/properties/${p.slug}` },
     openGraph: {
       title: `${p.name} · Luxora Estates`,
-      description: p.tagline,
-      images: [img(p.cover, 1200)],
+      description,
+      type: "website",
+      url: `/properties/${p.slug}`,
+      images: [{ url: img(p.cover, 1200), width: 1200, height: 800, alt: p.name }],
     },
   };
 }
@@ -61,6 +69,16 @@ export default async function PropertyDetailPage({
 
   return (
     <article className="pt-28 md:pt-32">
+      <JsonLd
+        data={[
+          propertySchema(property),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "The Collection", path: "/properties" },
+            { name: property.name, path: `/properties/${property.slug}` },
+          ]),
+        ]}
+      />
       <div className="mx-auto max-w-[1400px] px-5 md:px-8">
         {/* Breadcrumb */}
         <Link

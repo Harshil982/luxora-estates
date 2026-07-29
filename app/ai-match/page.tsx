@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "AI Property Matching",
   description:
     "Describe the life you want to live. Luxora's intelligence reads thousands of data points to find the residences that are unmistakably yours.",
+  alternates: { canonical: "/ai-match" },
 };
 
 export default function AiMatchPage() {

@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Investment",
   description:
     "Live luxury market intelligence, yield modelling and high-ROI opportunities across Luxora's global collection.",
+  alternates: { canonical: "/invest" },
 };
 
 export default function InvestPage() {

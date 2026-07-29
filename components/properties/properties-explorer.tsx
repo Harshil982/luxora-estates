@@ -20,10 +20,12 @@ const SORTS = [
 ] as const;
 
 export function PropertiesExplorer({
+  initialQuery = "",
   initialListing = "All",
   initialCity = "All",
   initialType = "All",
 }: {
+  initialQuery?: string;
   initialListing?: string;
   initialCity?: string;
   initialType?: string;
@@ -32,7 +34,7 @@ export function PropertiesExplorer({
   const [listing, setListing] = useState(initialListing);
   const [city, setCity] = useState(initialCity);
   const [sort, setSort] = useState<(typeof SORTS)[number]["id"]>("featured");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const [showFilters, setShowFilters] = useState(false);
 
   const results = useMemo(() => {

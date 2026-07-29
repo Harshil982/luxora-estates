@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "The story of Luxora Estates — a private house built on discretion, taste and an obsession with the extraordinary.",
+  alternates: { canonical: "/about" },
 };
 
 const TIMELINE = [

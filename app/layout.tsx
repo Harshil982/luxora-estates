@@ -7,6 +7,15 @@ import { Footer } from "@/components/layout/footer";
 import { GrainOverlay } from "@/components/visual/grain-overlay";
 import { AiAssistant } from "@/components/assistant/ai-assistant";
 import { ThemeProvider, themeInitScript } from "@/components/providers/theme-provider";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  organizationSchema,
+  websiteSchema,
+} from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,39 +34,51 @@ const fraunces = Fraunces({
   axes: ["opsz"],
 });
 
-const SITE = "https://luxora-estates.example.com";
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Luxora Estates — Where Extraordinary Living Begins",
+    default: "Luxora Estates — Luxury Real Estate | Where Extraordinary Living Begins",
     template: "%s · Luxora Estates",
   },
-  description:
-    "Luxora Estates curates the world's most exceptional residences — penthouses, villas and mansions across New York, Dubai, London, Malibu and beyond. Invest beyond imagination.",
-  keywords: [
-    "luxury real estate",
-    "penthouses",
-    "villas",
-    "mansions",
-    "Dubai property",
-    "New York penthouse",
-    "luxury investment",
-    "Luxora Estates",
-  ],
-  authors: [{ name: "Luxora Estates" }],
+  description: SITE_DESCRIPTION,
+  keywords: SITE_KEYWORDS,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "Real Estate",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     title: "Luxora Estates — Where Extraordinary Living Begins",
-    description:
-      "The world's most exceptional residences, curated. Invest beyond imagination.",
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
     type: "website",
-    siteName: "Luxora Estates",
+    siteName: SITE_NAME,
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luxora Estates",
-    description: "Where Extraordinary Living Begins.",
+    title: "Luxora Estates — Luxury Real Estate",
+    description: "The world's most exceptional residences, curated. Where Extraordinary Living Begins.",
   },
+  ...(googleVerification
+    ? { verification: { google: googleVerification } }
+    : {}),
 };
 
 export const viewport: Viewport = {
@@ -80,6 +101,7 @@ export default function RootLayout({
     >
       <body className="min-h-full">
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <ThemeProvider>
           <SmoothScroll>
             <GrainOverlay />

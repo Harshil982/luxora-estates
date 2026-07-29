@@ -91,6 +91,42 @@ On Vercel, add `GEMINI_API_KEY` under **Project → Settings → Environment Var
 
 ---
 
+## 🔎 SEO
+
+Technical SEO is built in and driven off one canonical origin
+([`lib/seo.ts`](./lib/seo.ts)):
+
+- **Per-page metadata** — unique titles, descriptions and **canonical URLs** on
+  every route; keyword-rich titles; the demo dashboard is `noindex`.
+- **Structured data (JSON-LD)** — `RealEstateAgent` (Organization) + `WebSite`
+  with a sitelinks `SearchAction` site-wide; each residence emits `Accommodation`
+  + `Offer` + `BreadcrumbList`.
+- **Open Graph / Twitter** — a branded, generated OG image
+  ([`app/opengraph-image.tsx`](./app/opengraph-image.tsx)); property pages use
+  the residence photo.
+- **`sitemap.xml`, `robots.txt`, `manifest.webmanifest`** — auto-generated,
+  all pointing at your real domain.
+
+### Going live & ranking (the off-page part)
+
+Technical SEO gets you *indexable*; these steps get you *ranked* — especially
+for the brand term **“Luxora Estates”**:
+
+1. **Deploy** and set **`NEXT_PUBLIC_SITE_URL`** to your real domain (Vercel →
+   Settings → Environment Variables). Everything canonical follows it.
+2. **[Google Search Console](https://search.google.com/search-console)** → add
+   your domain → verify (put the token in `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`
+   and redeploy, or use DNS) → **submit `/sitemap.xml`** → **Request indexing**
+   for the homepage.
+3. Give Google **days to a few weeks** to crawl and index. Brand-name ranking
+   usually follows quickly once indexed, since nothing else competes for it.
+4. A few real backlinks (your portfolio, GitHub, socials) accelerate it.
+
+> No amount of on-page SEO ranks a site that isn't deployed and indexed — steps
+> 1–2 are required and only you can do them.
+
+---
+
 ## 📁 Architecture
 
 Feature-based, colocated by domain.
